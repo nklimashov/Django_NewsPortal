@@ -20,6 +20,11 @@
                         <td><h4>Title</h4></td>
                         <td><h4>Publication date</h4></td>
                         <td><h4>Content</h4></td>
+
+                        {% if perms.news.change_news or perms.news.delete_news %}
+                        <td><h4>Action</h4></td>
+                        {% endif %}
+
                     </tr>
                     {% for post in news %}
                     <tr>
@@ -28,12 +33,22 @@
                         <td>{{ post.creation_date|date:'d.m.Y H:i' }}</td>
 
                         <td>{{ post.content|censor|truncatewords:20 }}</td>
+
+                        <td>
+                            {% if perms.news.change_news %}
+                            <a href="{% url 'news_update' pk=post.id %}">Edit</a>
+                            {% endif %}
+                            {% if perms.news.delete_news %}
+                            <a href="{% url 'news_delete' pk=post.id %}">Delete</a>
+                            {% endif %}
+                        </td>
+
                     </tr>
                     {% endfor %}
                 </table>
         {% else %}
             <h2>No news!</h2>
-    {% endif %}
+        {% endif %}
 
     {% if page_obj.has_previous %}
        {# Для каждой ссылки пагинации указываем обработку через новый тег #}

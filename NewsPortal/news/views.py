@@ -1,4 +1,5 @@
 from datetime import datetime
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.views.generic import ListView, DetailView,CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from .filters import NewsFilters
@@ -53,8 +54,9 @@ class PostSearch(ListView):
         return context
 
 
-
-class PostCreate(CreateView):
+class PostCreate(PermissionRequiredMixin,LoginRequiredMixin, CreateView):
+    permission_required = ('news.add_news',)
+    raise_exception = True
     form_class = PostForm
     model = Post
     template_name = 'news_edit.html'
@@ -66,7 +68,9 @@ class PostCreate(CreateView):
         return super().form_valid(form)
 
 
-class ArticleCreate(CreateView):
+class ArticleCreate(PermissionRequiredMixin, LoginRequiredMixin, CreateView):
+    permission_required = ('news.add_article',)
+    raise_exception = True
     form_class = PostForm
     model = Post
     template_name = 'art_edit.html'
@@ -78,25 +82,29 @@ class ArticleCreate(CreateView):
         return super().form_valid(form)
 
 
-class PostUpdate(UpdateView):
+class PostUpdate(PermissionRequiredMixin, UpdateView):
+    permission_required = ('news.change_news',)
     form_class = PostForm
     model = Post
     template_name = 'news_edit.html'
 
 
-class PostDelete(DeleteView):
+class PostDelete(PermissionRequiredMixin, DeleteView):
+    permission_required = ('news.delete_news',)
     model = Post
     template_name = 'news_delete.html'
     success_url = reverse_lazy('post_list')
 
 
-class ArticleUpdate(UpdateView):
+class ArticleUpdate(PermissionRequiredMixin, UpdateView):
+    permission_required = ('news.change_article',)
     form_class = PostForm
     model = Post
     template_name = 'art_edit.html'
 
 
-class ArticleDelete(DeleteView):
+class ArticleDelete(PermissionRequiredMixin, DeleteView):
+    permission_required = ('news.delete_article',)
     model = Post
     template_name = 'art_delete.html'
     success_url = reverse_lazy('post_list')
