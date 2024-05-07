@@ -155,7 +155,7 @@ ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 ACCOUNT_FORMS = {"signup": "accounts.forms.CustomSignupForm"}
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 465
 EMAIL_HOST_USER = 'test.SF.sites@yandex.ru'
@@ -164,3 +164,12 @@ EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
 
 DEFAULT_FROM_EMAIL = "test.SF.sites@yandex.ru"
+
+SERVER_EMAIL = 'test.SF.sites@yandex.ru'
+MANAGERS = (
+    ('Ivan', 'test.SF.sites@yandex.com'),
+)
+
+ADMINS = (
+    ('Anton', 'adadad@yandex.ru'),
+)
