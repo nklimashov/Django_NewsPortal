@@ -1,0 +1,4 @@
+Новости за неделю:
+{% for post in posts %}
+    <a href="http://127.0.0.1:8000/posts/{{ post.get_absolute_url }}">Пост</a>
+{% endfor %}
